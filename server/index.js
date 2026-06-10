@@ -62,4 +62,4 @@ app.post('/api/recommendations', async (req, res) => {
     }
 });
 
-app.listen(3001, () => console.log('Server running on port 3001'));
+app.listen(process.env.PORT || 3001, () => console.log('Server running'));
