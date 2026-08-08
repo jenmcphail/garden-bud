@@ -55,3 +55,33 @@ npm run dev
 ### 5. Use the app
 
 Open [http://localhost:5173/](http://localhost:5173/) in your browser, enter a 5-digit ZIP code, and click **Get recommendations**.
+
+## Production
+
+The frontend reads its API URL from `VITE_API_URL` at build time.
+
+- **Local dev** — `client/.env.development` points to `http://localhost:3001`
+- **Production build** — `client/.env.production` points to the Railway backend
+
+### Backend (Railway)
+
+1. Create a Railway service with the **root directory** set to `server`
+2. Add `ANTHROPIC_API_KEY` in Railway variables
+3. Deploy — the service exposes `/health` and `/api/recommendations`
+
+Verify the backend is up:
+
+```bash
+curl https://garden-bud-production.up.railway.app/health
+```
+
+### Frontend
+
+When deploying the client (Vercel, Netlify, etc.), set this build environment variable:
+
+```
+VITE_API_URL=https://garden-bud-production.up.railway.app
+```
+
+Then rebuild and redeploy. Without this variable, the production bundle will fall back to `localhost:3001`, which only works on your machine.
+

@@ -45,6 +45,10 @@ async function getPlantRecommendations(zone, zip) {
     return JSON.parse(raw);
 }
 
+app.get('/health', (_req, res) => {
+    res.json({ status: 'ok' });
+});
+
 app.post('/api/recommendations', async (req, res) => {
     const { zip } = req.body;
 
@@ -62,4 +66,6 @@ app.post('/api/recommendations', async (req, res) => {
     }
 });
 
-app.listen(process.env.PORT || 3001, () => console.log('Server running'));
+const port = process.env.PORT || 3001;
+
+app.listen(port, '0.0.0.0', () => console.log(`Server running on port ${port}`));

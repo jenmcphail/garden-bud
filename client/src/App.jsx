@@ -1,7 +1,11 @@
 import { useState } from 'react'
 import PlantCard from './components/PlantCard'
 
-const API_URL = 'http://localhost:3001/api/recommendations'
+const API_BASE = (import.meta.env.VITE_API_URL ?? 'http://localhost:3001').replace(
+  /\/$/,
+  '',
+)
+const API_URL = `${API_BASE}/api/recommendations`
 
 export default function App() {
   const [zip, setZip] = useState('')
@@ -35,7 +39,9 @@ export default function App() {
     } catch (err) {
       setError(
         err instanceof TypeError
-          ? 'Unable to reach the server. Make sure it is running on port 3001.'
+          ? import.meta.env.DEV
+            ? 'Unable to reach the server. Make sure it is running on port 3001.'
+            : 'Unable to reach the server. Please try again in a moment.'
           : err.message,
       )
     } finally {
